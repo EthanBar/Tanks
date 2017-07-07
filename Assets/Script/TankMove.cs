@@ -21,7 +21,7 @@ public class TankMove : MonoBehaviour {
         Vector2 toMove = Vector2.zero;
 
         if (Input.GetMouseButtonDown(0)) {
-            GameObject newBullet = Instantiate(bullet).GetComponent<Bullet>().parent = gameObject;
+            Instantiate(bullet).GetComponent<Bullet>().parent = gameObject;
         }
 
         if (Input.GetAxis("Vertical") > controlStick) {

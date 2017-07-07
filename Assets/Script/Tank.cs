@@ -15,9 +15,7 @@ public class Tank : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        HP -= 0.01f;
-
+    void Update () {
         if (HP <= 0) {
             Destroy(gameObject);
         }

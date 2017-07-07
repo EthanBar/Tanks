@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
 
+    [HideInInspector]
     public GameObject parent;
     public float speed;
     public float damage;
     Rigidbody2D rb2d;
+
+    public GameObject deathParticle;
 
 	// Use this for initialization
 	void Start () {
@@ -32,6 +35,7 @@ public class Bullet : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.transform.tag == "Tank") {
             collision.transform.GetComponent<Tank>().HP -= collision.relativeVelocity.magnitude * damage;
+            Instantiate(deathParticle, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
         if (collision.transform.tag == "Barrier") Destroy(gameObject);
