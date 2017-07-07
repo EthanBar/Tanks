@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour {
     public GameObject parent;
     public float speed;
     public float damage;
+    public float deathSpeed;
     Rigidbody2D rb2d;
 
     public GameObject deathParticle;
@@ -29,7 +30,7 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+        if (rb2d.velocity.magnitude < deathSpeed) Destroy(gameObject);
 	}
 
     void OnCollisionEnter2D(Collision2D collision) {
