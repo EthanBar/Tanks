@@ -11,67 +11,71 @@ public class TankMove : MonoBehaviour {
 
     Rigidbody2D rb2d;
 
+    Move move;
+
+    List<KeyCode> keyHistory;
+
+    bool wPress, aPress, sPress, dPress;
+
 	// Use this for initialization
 	void Start () {
+        keyHistory = new List<KeyCode> {
+            KeyCode.W,
+            KeyCode.A,
+            KeyCode.S,
+            KeyCode.D
+        };
+        move = new Move(gameObject, speed, rotationSpeed);
         rb2d = transform.parent.GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (!wPress && Input.GetKey(KeyCode.W)) MoveItemToFront(keyHistory, KeyCode.W);
+        if (!aPress && Input.GetKey(KeyCode.A)) MoveItemToFront(keyHistory, KeyCode.A);
+        if (!sPress && Input.GetKey(KeyCode.S)) MoveItemToFront(keyHistory, KeyCode.S);
+        if (!dPress && Input.GetKey(KeyCode.D)) MoveItemToFront(keyHistory, KeyCode.D);
+
         Vector2 toMove = Vector2.zero;
 
         if (Input.GetMouseButtonDown(0)) {
             Instantiate(bullet).GetComponent<Bullet>().parent = gameObject;
         }
 
-        if (Input.GetAxis("Vertical") > controlStick) {
-            toMove += Vector2.up;
-            if (transform.rotation.eulerAngles.z > rotationSpeed) {
-                if (transform.rotation.eulerAngles.z > 180) {
-                    transform.Rotate(0, 0, rotationSpeed);
-                } else transform.Rotate(0, 0, rotationSpeed);
-            } else {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-        }
-        if (Input.GetAxis("Vertical") < -controlStick) {
-            toMove += Vector2.down;
-            if (transform.rotation.eulerAngles.z > rotationSpeed + 180 ||
-                transform.rotation.eulerAngles.z < -rotationSpeed + 180) {
-                if (transform.rotation.eulerAngles.z > 180) {
-                    transform.Rotate(0, 0, -rotationSpeed);
-                } else transform.Rotate(0, 0, rotationSpeed);
-            } else {
-                transform.rotation = Quaternion.Euler(0, 0, 180);
-            }
-        }
-        if (Input.GetAxis("Horizontal") < -controlStick) {
-            toMove += Vector2.left;
-            if (transform.rotation.eulerAngles.z > rotationSpeed + 90 ||
-                transform.rotation.eulerAngles.z < -rotationSpeed + 90) {
-                if (transform.rotation.eulerAngles.z < 270 || transform.rotation.eulerAngles.z > 90) {
-                    transform.Rotate(0, 0, -rotationSpeed);
-                } else transform.Rotate(0, 0, rotationSpeed);
-            } else {
-                transform.rotation = Quaternion.Euler(0, 0, 90);
-            }
-        }
-        if (Input.GetAxis("Horizontal") > controlStick) {
-            toMove += Vector2.right;
-            if (transform.rotation.eulerAngles.z > rotationSpeed + 270 ||
-                transform.rotation.eulerAngles.z < -rotationSpeed + 270) {
-                if (transform.rotation.eulerAngles.z > 270 || transform.rotation.eulerAngles.z < 90) {
-                    transform.Rotate(0, 0, -rotationSpeed);
-                } else transform.Rotate(0, 0, rotationSpeed);
-            } else {
-                transform.rotation = Quaternion.Euler(0, 0, 270);
+        foreach (KeyCode key in keyHistory) {
+            if (Input.GetKey(key)) {
+                if (key == KeyCode.W) {
+                    move.Up();
+                    break;
+                }
+                if (key == KeyCode.A) {
+                    move.Left();
+                    break;
+                }
+                if (key == KeyCode.S) {
+                    move.Down();
+                    break;
+                }
+                if (key == KeyCode.D) {
+                    move.Right();
+                    break;
+                }
             }
         }
 
-        rb2d.MovePosition(new Vector2(transform.position.x, transform.position.y) + toMove * speed);
+        wPress = Input.GetKey(KeyCode.W);
+        aPress = Input.GetKey(KeyCode.A);
+        sPress = Input.GetKey(KeyCode.S);
+        dPress = Input.GetKey(KeyCode.D);
 
-        if (transform.rotation.eulerAngles.z > 360 - rotationSpeed) {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
+        move.EndMove();
 	}
+
+    void MoveItemToFront(List<KeyCode> list, KeyCode item) {
+        int index = list.IndexOf(item);
+        //print(item);
+        //print(index);
+        list.RemoveAt(index);
+        list.Insert(0, item);
+    }
 }

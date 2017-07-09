@@ -12,6 +12,7 @@ public class Barrel : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         // Unity forums
+        //transform.up = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         Vector3 diff = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         diff.Normalize();
 
