@@ -10,8 +10,6 @@ public class EnemyMove : MonoBehaviour {
     public float raycastDist;
     static System.Random rnd = new System.Random();
 
-    Vector2 target;
-
     Rigidbody2D rb2d;
 
     Move move;
