@@ -14,25 +14,26 @@ public class EnemyMove : MonoBehaviour {
 
     Transform player;
 
-    // Use this for initialization
+
     void Start() {
         player = GameObject.Find("Player").transform;
         move = new Move(gameObject, speed, rotationSpeed);
     }
 
-    // Update is called once per frame
+
     void Update() {
-        if (player != null) {
+        if (player != null) { // If the player is alive
             Vector2 toMove = Vector2.zero;
 
+            // Get all nearby colliders
             Collider2D[] hitColliders = Physics2D.OverlapBoxAll(transform.position, new Vector2(boxDist, boxDist), 0);
             List<Collider2D> colliders = new List<Collider2D>();
             foreach (Collider2D col in hitColliders) {
-                if (col.tag == "Obstacle") colliders.Add(col);
+                if (col.tag == "Obstacle") colliders.Add(col); // If the collider is an obstacle
             }
 
-            if (colliders.Count > 0) {
-                Collider2D closest = colliders[0];
+            if (colliders.Count > 0) { // If we need to avoid an obstacle
+                Collider2D closest = colliders[0]; // The cloest obstacle
                 foreach (Collider2D col in colliders) {
                     if (Vector2.Distance(transform.position, col.transform.position) >
                         Vector2.Distance(transform.position, closest.transform.position)) {
@@ -43,6 +44,7 @@ public class EnemyMove : MonoBehaviour {
                 float xdiff = closest.transform.position.x - transform.position.x;
                 float ydiff = closest.transform.position.y - transform.position.y;
 
+                // Move away from the obstacle
                 if (Mathf.Abs(xdiff) < Mathf.Abs(ydiff)) {
                     if (xdiff > 0) {
                         move.Left();
@@ -54,6 +56,7 @@ public class EnemyMove : MonoBehaviour {
                 }
 
             } else {
+                // No obstacles nearby, so we can chase the player
                 float xdiff = player.transform.position.x - transform.position.x;
                 float ydiff = player.transform.position.y - transform.position.y;
 
@@ -69,9 +72,5 @@ public class EnemyMove : MonoBehaviour {
             }
             move.EndMove();
         }
-    }
-
-    void TakeCover() {
-        
     }
 }

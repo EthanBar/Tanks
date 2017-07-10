@@ -27,6 +27,7 @@ public class Bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        transform.parent = GameObject.Find("Bullets").transform;
         transform.position = parent.transform.position;
         Vector3 diff = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         diff.Normalize();

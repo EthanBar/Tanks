@@ -26,6 +26,11 @@ public class Tank : MonoBehaviour {
         }
 	}
 
+    public void Heal (float amount) {
+        HP += amount;
+        if (HP > MaxHP) HP = MaxHP;
+    }
+
     //void OnMouseEnter() {
     //    print("hey");
     //    Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
