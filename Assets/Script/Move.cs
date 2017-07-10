@@ -68,7 +68,7 @@ public class Move {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
 
-        rb.MovePosition(new Vector2(transform.position.x, transform.position.y) + toMove * speed);
+        rb.AddForce(toMove * speed);
         toMove = Vector2.zero;
     }
 

@@ -20,13 +20,15 @@ public class EnemyBarrel : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         // Unity forums
-        Vector3 diff = player.transform.position - transform.position;
-        diff.Normalize();
+        if (player != null) {
+            Vector3 diff = player.transform.position - transform.position;
+            diff.Normalize();
 
-        float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+            float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
 
-        if (canShoot) Shoot();
+            if (canShoot) Shoot();
+        }
 	}
 
     void Shoot() {
@@ -37,7 +39,6 @@ public class EnemyBarrel : MonoBehaviour {
         RaycastHit2D hit;
         Vector3 rayDirection = player.transform.position - transform.position;
         hit = Physics2D.Raycast(transform.position, rayDirection);
-        print(hit.transform.name);
         if (hit.transform == player.transform) {
             Instantiate(bullet).GetComponent<Bullet>().SetParents(body, gameObject);
             StartCoroutine(ShootTime());

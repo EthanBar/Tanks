@@ -9,8 +9,6 @@ public class TankMove : MonoBehaviour {
     public float rotationSpeed;
     public float controlStick;
 
-    Rigidbody2D rb2d;
-
     Move move;
 
     List<KeyCode> keyHistory;
@@ -26,7 +24,6 @@ public class TankMove : MonoBehaviour {
             KeyCode.D
         };
         move = new Move(gameObject, speed, rotationSpeed);
-        rb2d = transform.parent.GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
