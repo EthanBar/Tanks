@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour {
 	}
 
     void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.transform.tag == "Tank") {
+        if (collision.transform.tag == "Tank" || collision.transform.tag == "Enemy") {
             collision.transform.GetComponent<Tank>().HP -= collision.relativeVelocity.magnitude * damage;
             Instantiate(deathParticle, transform.position, Quaternion.identity);
             Destroy(gameObject);
