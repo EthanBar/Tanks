@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TankMove : MonoBehaviour {
 
     public GameObject bullet;
@@ -15,8 +16,8 @@ public class TankMove : MonoBehaviour {
 
     bool wPress, aPress, sPress, dPress;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         keyHistory = new List<KeyCode> {
             KeyCode.W,
             KeyCode.A,
@@ -24,10 +25,11 @@ public class TankMove : MonoBehaviour {
             KeyCode.D
         };
         move = new Move(gameObject, speed, rotationSpeed);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update() {
+#if UNITY_STANDALONE || UNITY_EDITOR
         if (!wPress && Input.GetKey(KeyCode.W)) MoveItemToFront(keyHistory, KeyCode.W);
         if (!aPress && Input.GetKey(KeyCode.A)) MoveItemToFront(keyHistory, KeyCode.A);
         if (!sPress && Input.GetKey(KeyCode.S)) MoveItemToFront(keyHistory, KeyCode.S);
@@ -64,9 +66,12 @@ public class TankMove : MonoBehaviour {
         aPress = Input.GetKey(KeyCode.A);
         sPress = Input.GetKey(KeyCode.S);
         dPress = Input.GetKey(KeyCode.D);
-
+        
         move.EndMove();
-	}
+#else
+
+#endif
+    }
 
     void MoveItemToFront(List<KeyCode> list, KeyCode item) {
         int index = list.IndexOf(item);

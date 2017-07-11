@@ -28,7 +28,7 @@ public class Tank : MonoBehaviour {
 
     public void Heal (float amount) {
         HP += amount;
-        if (HP > MaxHP) HP = MaxHP;
+        if (HP > MaxHP) HP = MaxHP; 
     }
 
     //void OnMouseEnter() {
